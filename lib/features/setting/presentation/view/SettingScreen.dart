@@ -107,7 +107,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         child: Center(
                           child: ListTile(
                             title: Text(
-                              selectedLanguage == 0 ? 'English' : 'VietNamese',
+                              text == 0 ? 'English' : 'VietNamese',
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,

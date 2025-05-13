@@ -17,7 +17,7 @@ class LoginRepositoryImpl implements LoginRepository {
         id: userId,
         name: 'toki quy',
         email: 'thaingocquy@gmail.com',
-        image: 'https://example.com/image.jpg',
+        image: 'https://th.bing.com/th/id/OIP.X3jDS9J58Q4ilo4vgjh-RAHaE5?rs=1&pid=ImgDetMain',
       );
       return user;
     } catch (e) {

@@ -100,6 +100,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await saveSharedPrefsUsecase(userId['id']!);
         emit(state.copyWith(googleSuccess: true));
       }
+      
     } catch (e) {
       emit(state.copyWith(googleFailure: true));
     }
