@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:stargazer/features/camera/presentation/camera_page.dart';
 import 'package:stargazer/features/chat/presentation/screens/chat/chat_screen.dart';
 
@@ -8,6 +9,7 @@ import 'package:stargazer/features/register/presentation/register_page.dart';
 import 'package:stargazer/features/setting/presentation/view/LanguageSelect.dart';
 import 'package:stargazer/features/setting/presentation/view/SettingScreen.dart';
 import 'package:stargazer/features/splash/presentations/splash_page.dart';
+import 'package:stargazer/features/tarrot_telling/presentation/view/tarot_home.dart';
 import '../constants.dart';
 
 class AppRoutes {
@@ -20,6 +22,7 @@ class AppRoutes {
     RouteConstants.register,
     RouteConstants.camera,
     RouteConstants.chat,
+    RouteConstants.tarot
   ];
 
   static const List<String> homeRoutes = [
@@ -41,6 +44,7 @@ class AppRoutes {
     RouteConstants.register: (context) => const RegisterPage(),
     RouteConstants.camera: (context) => const CameraPage(),
     RouteConstants.chat: (context) => ChatScreen(),
+    RouteConstants.tarot: (context) => const TarotHome(),
   };
 
   static Map<String, WidgetBuilder> getPages() {
@@ -69,7 +73,8 @@ class AppRoutes {
         return const CameraPage();
       case RouteConstants.chat:
         return ChatScreen();
-
+      case RouteConstants.tarot:
+        return TarotHome();
       default:
         throw Exception('Route not found');
     }

@@ -10,7 +10,7 @@ import 'package:stargazer/core/utils/colors.dart';
 import 'package:stargazer/features/home/presentation/bloc/home_bloc.dart';
 import 'package:stargazer/features/prediction/presentation/prediction_page.dart';
 import 'package:stargazer/features/chat/presentation/screens/chat/chat_screen.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stargazer/features/setting/presentation/provider/setting_provider.dart';
 
 class HomeContainer extends StatefulWidget {
@@ -185,6 +185,26 @@ class _HomeContainerState extends State<HomeContainer> {
                     text == 0 ? 'Settings' : 'Cài đặt',
                     () {
                       Navigator.pushNamed(context, RouteConstants.setting);
+                    },
+                    theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    theme,
+                  ),
+                  _sidebarItem(
+                    // Icon(
+                    //   Icons.settings,
+                    //   color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    //   size: 36,
+                    // ),
+                    SvgPicture.asset(
+                      'lib/assets/svgs/tarot-card-2-svgrepo-com.svg',
+                      width: 36,
+                      height: 36,
+                      // ignore: deprecated_member_use
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black ,
+                    ),
+                    text == 0 ? 'Tarot cards' : 'Bài Tarot',
+                    () {
+                      Navigator.pushNamed(context, RouteConstants.tarot);
                     },
                     theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     theme,
