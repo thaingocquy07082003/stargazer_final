@@ -36,6 +36,7 @@ class _TarotHomeState extends State<TarotHome> {
               ),
               SizedBox(height: 5),
               Container(
+                padding: EdgeInsets.only(top: 10,bottom: 20),
                 width: MediaQuery.of(context).size.width * 0.95, // Chiều rộng cố định
                 alignment: Alignment.center, // Căn giữa nội dung
                 child: Text(
@@ -57,12 +58,23 @@ class _TarotHomeState extends State<TarotHome> {
                 width: MediaQuery.of(context).size.width * 0.9, // Kích thước tùy chỉnh
                 height: MediaQuery.of(context).size.width * 1.13,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to another screen or perform an action
-                },
-                child: Text('Start Reading'),
-              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/tarotDisplay');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    backgroundColor: Colors.purple, 
+                    foregroundColor: Colors.white, 
+                  ),
+                  child: Text('Start Reading' , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold),),
+                ),
+              )
             ],
           ),
         )

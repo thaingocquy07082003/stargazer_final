@@ -209,6 +209,26 @@ class _HomeContainerState extends State<HomeContainer> {
                     theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     theme,
                   ),
+                  _sidebarItem(
+                    // Icon(
+                    //   Icons.settings,
+                    //   color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    //   size: 36,
+                    // ),
+                    SvgPicture.asset(
+                      'lib/assets/svgs/leo-svgrepo-com.svg',
+                      width: 36,
+                      height: 36,
+                      // ignore: deprecated_member_use
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black ,
+                    ),
+                    text == 0 ? 'Zodiac Reading' : 'Cung hoàng đạo',
+                    () {
+                      Navigator.pushNamed(context, RouteConstants.zodiac);
+                    },
+                    theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    theme,
+                  ),
                 ],
               ),
             ),

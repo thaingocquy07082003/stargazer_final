@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
+// import 'package:path/path.dart';
 import 'package:stargazer/features/camera/presentation/camera_page.dart';
 import 'package:stargazer/features/chat/presentation/screens/chat/chat_screen.dart';
 
@@ -9,7 +9,10 @@ import 'package:stargazer/features/register/presentation/register_page.dart';
 import 'package:stargazer/features/setting/presentation/view/LanguageSelect.dart';
 import 'package:stargazer/features/setting/presentation/view/SettingScreen.dart';
 import 'package:stargazer/features/splash/presentations/splash_page.dart';
+import 'package:stargazer/features/tarrot_telling/presentation/view/card_detail.dart';
+import 'package:stargazer/features/tarrot_telling/presentation/view/tarot_cards.dart';
 import 'package:stargazer/features/tarrot_telling/presentation/view/tarot_home.dart';
+import 'package:stargazer/features/zodiac/zodiac_reading.dart';
 import '../constants.dart';
 
 class AppRoutes {
@@ -22,7 +25,10 @@ class AppRoutes {
     RouteConstants.register,
     RouteConstants.camera,
     RouteConstants.chat,
-    RouteConstants.tarot
+    RouteConstants.tarot,
+    RouteConstants.tarotsDisplay,
+    RouteConstants.tarotDetail,
+    RouteConstants.zodiac,
   ];
 
   static const List<String> homeRoutes = [
@@ -45,6 +51,7 @@ class AppRoutes {
     RouteConstants.camera: (context) => const CameraPage(),
     RouteConstants.chat: (context) => ChatScreen(),
     RouteConstants.tarot: (context) => const TarotHome(),
+    RouteConstants.tarotsDisplay: (context) => const TarotCards(),
   };
 
   static Map<String, WidgetBuilder> getPages() {
@@ -75,6 +82,12 @@ class AppRoutes {
         return ChatScreen();
       case RouteConstants.tarot:
         return TarotHome();
+      case RouteConstants.tarotsDisplay:
+        return const TarotCards();
+      case RouteConstants.tarotDetail:
+        return const CardDetail();
+      case RouteConstants.zodiac:
+        return const ZodiacReading();
       default:
         throw Exception('Route not found');
     }

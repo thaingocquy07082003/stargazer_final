@@ -20,4 +20,7 @@ class RouteConstants {
   // minor screen
   static const String language = '/language';
   static const String tarot = '/tarot';
+  static const String tarotDetail = '/tarotDetail';
+  static const String tarotsDisplay = '/tarotDisplay';
+  static const String zodiac = '/zodiac';
 }

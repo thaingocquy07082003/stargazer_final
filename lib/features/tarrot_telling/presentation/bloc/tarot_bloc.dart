@@ -19,5 +19,7 @@ class TarotBloc extends Bloc<TarotEvent, TarotState> {
       final tarotList =  TarotUsecase.getTarot();
       emit(state.copyWith(tarotList: tarotList));
     });
+
+    add(const _Initialized());
   }
 }
