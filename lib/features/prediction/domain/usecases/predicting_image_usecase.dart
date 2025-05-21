@@ -48,6 +48,7 @@ class PredictingImageUsecase {
 
     // Get output shape and create output array
     final outputShape = _interpreter!.getOutputTensor(0).shape;
+    print('outputShape co dang : $outputShape');
     final outputSize = outputShape.reduce((a, b) => a * b);
     var output = List<double>.filled(outputSize, 0).reshape(outputShape);
 
@@ -62,31 +63,63 @@ class PredictingImageUsecase {
     }
   }
 
+  // List<double> preprocessImage(img.Image image) {
+  //   // Resize the image
+  //   final resizedImage = img.copyResize(
+  //     image,
+  //     width: imageSize,
+  //     height: imageSize,
+  //   );
+
+  //   // Convert to RGB if needed
+  //   final rgbImage = img.grayscale(resizedImage);
+
+  //   // Create input array and normalize pixel values
+  //   final input = Float32List(1 * imageSize * imageSize * 3);
+  //   var pixelIndex = 0;
+
+  //   for (var y = 0; y < imageSize; y++) {
+  //     for (var x = 0; x < imageSize; x++) {
+  //       final pixel = rgbImage.getPixel(x, y);
+  //       // Normalize to [-1, 1] range
+  //       input[pixelIndex++] = (pixel.r / 255.0) * 2 - 1;
+  //       input[pixelIndex++] = (pixel.g / 255.0) * 2 - 1;
+  //       input[pixelIndex++] = (pixel.b / 255.0) * 2 - 1;
+  //     }
+  //   }
+  //   print('input dau vao co dang : ${input}');
+  //   return input;
+  // }
   List<double> preprocessImage(img.Image image) {
-    // Resize the image
+    // Check if image is valid
+    if (image == null || image.width <= 0 || image.height <= 0) {
+      throw ArgumentError('Image is invalid');
+    }
+
+    // Resize the image to desired size
     final resizedImage = img.copyResize(
       image,
       width: imageSize,
       height: imageSize,
     );
 
-    // Convert to RGB if needed
-    final rgbImage = img.grayscale(resizedImage);
-
-    // Create input array and normalize pixel values
+    // Create input array and normalize pixel values to [0, 1] range
     final input = Float32List(1 * imageSize * imageSize * 3);
     var pixelIndex = 0;
 
     for (var y = 0; y < imageSize; y++) {
       for (var x = 0; x < imageSize; x++) {
-        final pixel = rgbImage.getPixel(x, y);
-        // Normalize to [-1, 1] range
-        input[pixelIndex++] = (pixel.r / 255.0) * 2 - 1;
-        input[pixelIndex++] = (pixel.g / 255.0) * 2 - 1;
-        input[pixelIndex++] = (pixel.b / 255.0) * 2 - 1;
+        final pixel = resizedImage.getPixel(x, y);
+        // Normalize to [0, 1] range
+        input[pixelIndex++] = pixel.r / 255.0;
+        input[pixelIndex++] = pixel.g / 255.0;
+        input[pixelIndex++] = pixel.b / 255.0;
       }
     }
-    print(input);
+
+    // Log for debugging
+    print('Input length: ${input.length}');
+    print('Sample input: ${input.sublist(0, 10)}');
     return input;
   }
 

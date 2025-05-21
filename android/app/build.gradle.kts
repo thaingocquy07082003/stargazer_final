@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.stargazer"
+    namespace = "com.mobileapp.stargazer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.stargazer"
+        applicationId = "com.mobileapp.stargazer"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
@@ -30,13 +30,38 @@ android {
         versionName = flutter.versionName
     }
 
+    // signingConfigs {
+    //     debug {
+    //         keyAlias = "uploadkey"
+    //         keyPassword = "1412magickid"
+    //         storeFile = file("uploadkey.p12")
+    //         storePassword = "1412magickid"
+    //     }
+    // }
+    signingConfigs {
+        create("release") {
+            keyAlias = "uploadkey"
+            keyPassword = "1412magickid"
+            storeFile = file("uploadkey.p12")
+            storePassword = "1412magickid"
+        }
+    }
+    
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
+    // buildTypes {
+    //     getByName("release") {
+    //         signingConfig = signingConfigs.getByName("debug")
+    //     }
+    //     getByName("debug") {
+    //             // signingConfig = signingConfigs.getByName("debug")
+    //     }
+    // }
 }
 
 flutter {

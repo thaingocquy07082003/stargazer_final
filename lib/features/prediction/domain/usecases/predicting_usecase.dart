@@ -11,26 +11,29 @@ import 'package:stargazer/core/constants.dart';
 
 class PredictingUsecase {
   Future<String> call(List<double> prediction) async {
-    if (prediction.length != 30) {
+    if (prediction.length != 80) {
       throw ArgumentError(
-        'Cần chính xác 30 điểm (3 đường chỉ x 5 điểm x 2 tọa độ)',
+        'Cần chính xác 80 điểm (4 đường chỉ x 10 điểm x 2 tọa độ)',
       );
     }
 
     final lines = {
-      'heart': HandLine(prediction.sublist(0, 10)),
-      'mind': HandLine(prediction.sublist(10, 20)),
-      'life': HandLine(prediction.sublist(20, 30)),
+      'heart': HandLine(prediction.sublist(0, 20)),
+      'mind': HandLine(prediction.sublist(20, 40)),
+      'life': HandLine(prediction.sublist(40, 60)),
+      'work': HandLine(prediction.sublist(60, 80)),
     };
 
     final heartReading = _analyzeHeartLine(lines['heart']!);
     final mindReading = _analyzeMindLine(lines['mind']!);
     final lifeReading = _analyzeLifeLine(lines['life']!);
+    final workReading = _analyzeWorkLine(lines['work']!);
 
     return '''
     Đường Tình Duyên: $heartReading
     Đường Trí Đạo: $mindReading
     Đường Sinh Mệnh: $lifeReading
+    Đường Công Danh: $workReading
     ''';
   }
 
@@ -60,6 +63,15 @@ class PredictingUsecase {
 
     if (depth > 0.9) return 'Sức khỏe dồi dào, trường thọ';
     if (breaks > 0) return 'Cuộc sống nhiều biến động cần lưu ý';
+    return 'Năng lượng ổn định, sinh lực tốt';
+  }
+
+  String _analyzeWorkLine(HandLine line) {
+    final depth = line.calculateDepth();
+    final breaks = line.countBreaks();
+
+    if (depth > 0.5) return 'Sức khỏe dồi dào, công việc ổn định';
+    if (breaks > 0) return 'Công việc nhiều biến động cần lưu ý';
     return 'Năng lượng ổn định, sinh lực tốt';
   }
 }

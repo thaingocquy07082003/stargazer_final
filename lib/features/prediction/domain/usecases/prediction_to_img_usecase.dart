@@ -44,8 +44,8 @@ class PredictionToImgUsecase {
     }
 
     // Draw lines connecting points within each group of 5
-    for (int i = 0; i < points.length; i += 5) {
-      final endIndex = (i + 5).clamp(0, points.length);
+    for (int i = 0; i < points.length; i += 10) {
+      final endIndex = (i + 10).clamp(0, points.length);
       final groupPoints = points.sublist(i, endIndex);
 
       // Connect points within the group

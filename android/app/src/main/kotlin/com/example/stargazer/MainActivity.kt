@@ -1,4 +1,4 @@
-package com.example.stargazer
+package com.mobileapp.stargazer
 
 import io.flutter.embedding.android.FlutterActivity
 

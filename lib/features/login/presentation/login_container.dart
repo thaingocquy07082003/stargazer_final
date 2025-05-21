@@ -66,9 +66,33 @@ class LoginContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _buildLogo(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   _buildLoginForm(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
+                  Text('Sign in as guest',
+                  style: AppTexts.SFProRegular(
+                      color: AppColors.rice(0.5), fontSize: 16)),
+                  SizedBox(height: 16),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      _loginBloc.add(LoginEvent.loginButtonPressed());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
                   _buildSignUpBtn(
                     () {
                       context
@@ -76,6 +100,7 @@ class LoginContainer extends StatelessWidget {
                           .add(LoginEvent.signUp());
                     },
                   ),
+                  
                 ],
               ),
             ),
