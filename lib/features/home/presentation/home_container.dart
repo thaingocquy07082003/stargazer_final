@@ -200,7 +200,7 @@ class _HomeContainerState extends State<HomeContainer> {
                       width: 36,
                       height: 36,
                       // ignore: deprecated_member_use
-                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black ,
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     ),
                     text == 0 ? 'Tarot cards' : 'Bài Tarot',
                     () {
@@ -220,7 +220,7 @@ class _HomeContainerState extends State<HomeContainer> {
                       width: 36,
                       height: 36,
                       // ignore: deprecated_member_use
-                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black ,
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     ),
                     text == 0 ? 'Zodiac Reading' : 'Cung hoàng đạo',
                     () {

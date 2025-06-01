@@ -30,14 +30,6 @@ android {
         versionName = flutter.versionName
     }
 
-    // signingConfigs {
-    //     debug {
-    //         keyAlias = "uploadkey"
-    //         keyPassword = "1412magickid"
-    //         storeFile = file("uploadkey.p12")
-    //         storePassword = "1412magickid"
-    //     }
-    // }
     signingConfigs {
         create("release") {
             keyAlias = "uploadkey"
@@ -49,19 +41,18 @@ android {
     
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
     }
-    // buildTypes {
-    //     getByName("release") {
-    //         signingConfig = signingConfigs.getByName("debug")
-    //     }
-    //     getByName("debug") {
-    //             // signingConfig = signingConfigs.getByName("debug")
-    //     }
-    // }
+}
+
+dependencies {
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
 }
 
 flutter {
