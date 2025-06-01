@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stargazer/core/services/data/models/user.dart';
 import 'package:stargazer/core/services/data/services/remove_sharedprefs_usecase.dart';
 import 'package:stargazer/core/services/data/services/save_sharedprefs_usecase.dart';
-import 'package:stargazer/core/services/domain/entities/user.dart';
 import 'package:stargazer/features/login/domain/usecase/login_email_usecase.dart';
 import 'package:stargazer/features/login/domain/usecase/login_google_usecase.dart';
 import 'package:stargazer/features/login/domain/usecase/login_sharedprefs_usecase.dart';
@@ -75,10 +75,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(state.copyWith(loading: true));
       final userId = await loginEmailUsecase(state.email, state.password);
-      final user = await userGetUsecase(userId);
-      emit(state.copyWith(user: user));
-      await saveSharedPrefsUsecase(userId);
-      emit(state.copyWith(emailSuccess: true));
+      if (userId == 'none') {
+        emit(state.copyWith(emailFailure: true));
+        print('login by email failure');
+        emit(state.copyWith(loading: false));
+      } else {
+        final user = await userGetUsecase();
+        emit(state.copyWith(user: user));
+        await saveSharedPrefsUsecase(userId);
+        emit(state.copyWith(emailSuccess: true));
+        emit(state.copyWith(emailFailure: false));
+        emit(state.copyWith(loading: false));
+      }
     } catch (e) {
       emit(state.copyWith(emailFailure: true));
     }
@@ -92,7 +100,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(loading: true));
       final userId = await loginGoogleUsecase();
       emit(state.copyWith(id: userId['id']!, email: userId['email']!));
-      final user = await userGetUsecase(userId['id']!);
+      final user = await userGetUsecase();
       if (user == null) {
         emit(state.copyWith(googleUserNotFound: true));
       } else {
@@ -100,7 +108,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await saveSharedPrefsUsecase(userId['id']!);
         emit(state.copyWith(googleSuccess: true));
       }
-      
     } catch (e) {
       emit(state.copyWith(googleFailure: true));
     }

@@ -1,4 +1,5 @@
-import 'package:stargazer/core/services/domain/entities/user.dart';
+// import 'package:stargazer/core/services/domain/entities/user.dart';
+import 'package:stargazer/core/services/data/models/user.dart';
 import 'package:stargazer/core/services/domain/repositories/user_repository.dart';
 
 class GetUserUseCase {
@@ -6,7 +7,7 @@ class GetUserUseCase {
 
   GetUserUseCase({required this.userRepository});
 
-  Future<User?> call(String userId) async {
-    return userRepository.getUser(userId);
+  Future<UserInfo?> call() async {
+    return userRepository.getUser();
   }
 }

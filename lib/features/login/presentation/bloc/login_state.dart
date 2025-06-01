@@ -10,7 +10,7 @@ abstract class LoginState with _$LoginState {
       @Default(false) bool googleFailure,
       @Default(false) bool googleUserNotFound,
       @Default(false) bool isSignUpBtnPressed,
-      @Default(null) User? user,
+      @Default(null) UserInfo? user,
       @Default('') String email,
       @Default('') String password,
       @Default('') String id}) = _LoginState;

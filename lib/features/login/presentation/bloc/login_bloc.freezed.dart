@@ -253,7 +253,7 @@ mixin _$LoginState {
   bool get googleFailure;
   bool get googleUserNotFound;
   bool get isSignUpBtnPressed;
-  User? get user;
+  UserInfo? get user;
   String get email;
   String get password;
   String get id;
@@ -325,7 +325,7 @@ abstract mixin class $LoginStateCopyWith<$Res> {
       bool googleFailure,
       bool googleUserNotFound,
       bool isSignUpBtnPressed,
-      User? user,
+      UserInfo? user,
       String email,
       String password,
       String id});
@@ -387,7 +387,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserInfo?,
       email: null == email
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -443,7 +443,7 @@ class _LoginState implements LoginState {
   final bool isSignUpBtnPressed;
   @override
   @JsonKey()
-  final User? user;
+  final UserInfo? user;
   @override
   @JsonKey()
   final String email;
@@ -524,7 +524,7 @@ abstract mixin class _$LoginStateCopyWith<$Res>
       bool googleFailure,
       bool googleUserNotFound,
       bool isSignUpBtnPressed,
-      User? user,
+      UserInfo? user,
       String email,
       String password,
       String id});
@@ -586,7 +586,7 @@ class __$LoginStateCopyWithImpl<$Res> implements _$LoginStateCopyWith<$Res> {
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserInfo?,
       email: null == email
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable

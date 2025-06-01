@@ -1,6 +1,7 @@
+import 'package:stargazer/core/services/data/models/user.dart';
 import 'package:stargazer/core/services/domain/entities/user.dart';
 
 abstract class UserRepository {
-  Future<User?> getUser(String userId);
+  Future<UserInfo?> getUser();
   Future<User> addUser(User user);
 }

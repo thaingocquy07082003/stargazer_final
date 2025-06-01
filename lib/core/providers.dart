@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:stargazer/core/services/domain/entities/user.dart';
+import 'package:stargazer/core/services/data/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
-  User? _user;
+  UserInfo? _user;
 
-  setUser(User user) {
+  setUser(UserInfo user) {
     _user = user;
     notifyListeners();
   }
 
-  User? getUser() {
+  UserInfo? getUser() {
     return _user;
   }
 }

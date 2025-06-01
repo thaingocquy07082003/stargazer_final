@@ -1,5 +1,6 @@
-import 'package:stargazer/core/services/domain/entities/user.dart';
+import 'package:stargazer/core/services/data/models/user.dart';
 
 abstract class LoginRepository {
-  Future<User?> getUser(String userId);
+  Future<UserInfo?> getUser();
+  Future<UserInfo?> LoginEmail(String email, String password);
 }

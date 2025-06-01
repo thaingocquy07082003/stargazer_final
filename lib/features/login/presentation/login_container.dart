@@ -13,48 +13,48 @@ class LoginContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     _loginBloc = context.read<LoginBloc>();
     _userProvider = context.read<UserProvider>();
-    return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.isSignUpBtnPressed) {
-          Navigator.popAndPushNamed(
-            context,
-            RouteConstants.register,
-            arguments: {
-              'id': null,
-            },
-          );
-        }
-        if (state.emailSuccess || state.googleSuccess) {
-          _userProvider.setUser(state.user!);
-          Navigator.popAndPushNamed(
-            context,
-            RouteConstants.home,
-          );
-        }
-        if (state.emailFailure || state.googleFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login failed')),
-          );
-        }
-        if (state.googleUserNotFound) {
-          Navigator.popAndPushNamed(
-            context,
-            RouteConstants.register,
-            arguments: {
-              'id': state.id,
-              'email': state.email,
-            },
-          );
-        }
-      },
-      builder: (context, state) {
-        if (state.loading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Scaffold(
-          resizeToAvoidBottomInset: true, // Đảm bảo điều chỉnh khi bàn phím xuất hiện
-          backgroundColor: AppColors.coal(1.0),
-          body: SingleChildScrollView(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.coal(1.0),
+      body: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state.isSignUpBtnPressed) {
+            Navigator.popAndPushNamed(
+              context,
+              RouteConstants.register,
+              arguments: {
+                'id': null,
+              },
+            );
+          }
+          if (state.emailSuccess || state.googleSuccess) {
+            _userProvider.setUser(state.user!);
+            Navigator.popAndPushNamed(
+              context,
+              RouteConstants.home,
+            );
+          }
+          if (state.emailFailure || state.googleFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Login failed')),
+            );
+          }
+          if (state.googleUserNotFound) {
+            Navigator.popAndPushNamed(
+              context,
+              RouteConstants.register,
+              arguments: {
+                'id': state.id,
+                'email': state.email,
+              },
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
                 left: 16.0,
@@ -70,8 +70,8 @@ class LoginContainer extends StatelessWidget {
                   _buildLoginForm(),
                   SizedBox(height: 16),
                   Text('Sign in as guest',
-                  style: AppTexts.SFProRegular(
-                      color: AppColors.rice(0.5), fontSize: 16)),
+                      style: AppTexts.SFProRegular(
+                          color: AppColors.rice(0.5), fontSize: 16)),
                   SizedBox(height: 16),
                   InkWell(
                     borderRadius: BorderRadius.circular(15),
@@ -95,18 +95,15 @@ class LoginContainer extends StatelessWidget {
                   SizedBox(height: 16),
                   _buildSignUpBtn(
                     () {
-                      context
-                          .read<LoginBloc>()
-                          .add(LoginEvent.signUp());
+                      context.read<LoginBloc>().add(LoginEvent.signUp());
                     },
                   ),
-                  
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -149,8 +146,8 @@ class LoginContainer extends StatelessWidget {
         children: [
           Text(
             'Log in',
-            style: AppTexts.SFProRegular(
-                color: AppColors.rice(1.0), fontSize: 24),
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 24),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -198,8 +195,7 @@ class LoginContainer extends StatelessWidget {
               _loginBloc.add(LoginEvent.loginButtonPressed());
             },
             style: TextButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -222,8 +218,7 @@ class LoginContainer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(color: AppColors.coalLight(1.0)),
               ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               fixedSize: const Size.fromHeight(48),
             ),
             child: Row(

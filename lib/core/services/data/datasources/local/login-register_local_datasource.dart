@@ -3,16 +3,16 @@ import 'package:stargazer/core/services/data/repositories/login-register_reposit
 
 class LoginRegisterLocalDatasource implements LoginRegisterRepository {
   @override
-  Future<void> saveUser(String id) async {
+  Future<void> saveUser(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('id', id);
+    await prefs.setString('token', token);
     await prefs.setBool('isLoggedIn', true);
   }
 
   @override
   Future<void> removeUser() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('id');
+    await prefs.remove('token');
     await prefs.setBool('isLoggedIn', false);
   }
 }

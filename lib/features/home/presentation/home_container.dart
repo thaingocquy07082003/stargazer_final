@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:stargazer/core/constants.dart';
 import 'package:stargazer/core/providers.dart';
 import 'package:stargazer/core/routes.dart';
-import 'package:stargazer/core/services/domain/entities/user.dart';
+import 'package:stargazer/core/services/data/models/user.dart';
 import 'package:stargazer/core/utils/colors.dart';
 import 'package:stargazer/features/home/presentation/bloc/home_bloc.dart';
 import 'package:stargazer/features/prediction/presentation/prediction_page.dart';
@@ -22,7 +22,7 @@ class HomeContainer extends StatefulWidget {
 
 class _HomeContainerState extends State<HomeContainer> {
   late HomeBloc homeBloc;
-  User? user;
+  UserInfo? user;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -69,9 +69,10 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   _buildAppBar(GlobalKey<ScaffoldState> scaffoldKey, int theme) {
-    ImageProvider image = user?.image.isNotEmpty == true
-        ? NetworkImage(user!.image)
-        : AssetImage('lib/assets/images/logo.png') as ImageProvider;
+    // ImageProvider image = user?.image.isNotEmpty == true
+    //     ? NetworkImage(user!.image)
+    //     : AssetImage('lib/assets/images/logo.png') as ImageProvider;
+    ImageProvider image =  AssetImage('lib/assets/images/logo.png') as ImageProvider;
     return AppBar(
       centerTitle: true,
       actionsPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -137,9 +138,10 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   _sideBar(BuildContext context, int text, int theme) {
-    ImageProvider image = user?.image.isNotEmpty == true
-        ? NetworkImage(user!.image)
-        : AssetImage('lib/assets/images/logo.png') as ImageProvider;
+    // ImageProvider image = user?.image.isNotEmpty == true
+    //     ? NetworkImage(user!.image)
+    //     : AssetImage('lib/assets/images/logo.png') as ImageProvider;
+    ImageProvider image = AssetImage('lib/assets/images/logo.png') as ImageProvider;
     return Container(
       decoration: BoxDecoration(
         border: Border(right: BorderSide(color: AppColors.rice(0.5), width: 2)),

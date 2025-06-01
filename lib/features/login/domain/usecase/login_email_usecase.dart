@@ -1,8 +1,9 @@
 // import 'package:firebase_auth/firebase_auth.dart' hide User;
-import 'package:stargazer/features/login/domain/repositories/login_repository.dart';
+import 'package:stargazer/features/login/data/repositories/login_repository_impl.dart';
+// import 'package:stargazer/features/login/domain/repositories/login_repository.dart';
 
 class LoginEmailUsecase {
-  final LoginRepository loginRepository;
+  final LoginRepositoryImpl loginRepository;
   // final FirebaseAuth auth;
 
   LoginEmailUsecase({
@@ -11,10 +12,7 @@ class LoginEmailUsecase {
   });
 
   Future<String> call(String email, String password) async {
-    // await auth.signInWithEmailAndPassword(
-    //   email: email,
-    //   password: password,
-    // );
-    return '007';
+    final user = await loginRepository.LoginEmail(email, password);
+    return user?.id ?? 'none';
   }
 }
