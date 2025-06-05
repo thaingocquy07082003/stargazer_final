@@ -29,7 +29,8 @@ class RegisterContainer extends StatelessWidget {
           container = _buildMainContainer(context);
         }
         return Scaffold(
-          resizeToAvoidBottomInset: true, // Đảm bảo điều chỉnh khi bàn phím xuất hiện
+          resizeToAvoidBottomInset:
+              true, // Đảm bảo điều chỉnh khi bàn phím xuất hiện
           backgroundColor: AppColors.coal(1.0),
           body: Padding(
             padding: const EdgeInsets.only(top: 60),
@@ -84,7 +85,7 @@ class RegisterContainer extends StatelessWidget {
               const SizedBox(height: 12),
               TextButton(
                 onPressed: () {
-                  _registerBloc.add(RegisterEvent.onSignUpPressed());
+                  _registerBloc.add(RegisterEvent.onEmailSignUpPressed());
                 },
                 style: TextButton.styleFrom(
                   padding:
@@ -117,7 +118,8 @@ class RegisterContainer extends StatelessWidget {
           top: MediaQuery.viewPaddingOf(context).top,
           bottom: MediaQuery.of(context).viewInsets.bottom + 20.0,
         ),
-        child: SizedBox(
+        child: Center(
+          child: SizedBox(
           width: 320,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +147,7 @@ class RegisterContainer extends StatelessWidget {
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
-                  _registerBloc.add(RegisterEvent.onVerifyEmailPressed());
+                  _registerBloc.add(RegisterEvent.onLoginPressed());
                 },
                 style: TextButton.styleFrom(
                   padding:
@@ -164,6 +166,7 @@ class RegisterContainer extends StatelessWidget {
               ),
             ],
           ),
+        ),
         ),
       ),
     );
@@ -274,13 +277,13 @@ class RegisterContainer extends StatelessWidget {
         children: [
           Text(
             'Sign up',
-            style: AppTexts.SFProRegular(
-                color: AppColors.rice(1.0), fontSize: 24),
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 24),
           ),
           const SizedBox(height: 12),
           TextField(
-            style: AppTexts.SFProRegular(
-                color: AppColors.rice(1.0), fontSize: 16),
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 16),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.coalLight(1.0),
@@ -318,8 +321,8 @@ class RegisterContainer extends StatelessWidget {
                       borderSide: BorderSide.none,
                     ),
                     isDense: true,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                   ),
                   onChanged: (value) {
                     _registerBloc.add(RegisterEvent.onPasswordChanged(value));
@@ -341,8 +344,8 @@ class RegisterContainer extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           TextField(
-            style: AppTexts.SFProRegular(
-                color: AppColors.rice(1.0), fontSize: 16),
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 16),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.coalLight(1.0),
@@ -364,12 +367,11 @@ class RegisterContainer extends StatelessWidget {
           const SizedBox(height: 12),
           TextButton(
             onPressed: () {
-              // _registerBloc.add(RegisterEvent.onEmailSignUpPressed());
-              onPressed();
+              _registerBloc.add(RegisterEvent.onEmailSignUpPressed());
+              // onPressed();
             },
             style: TextButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -392,8 +394,7 @@ class RegisterContainer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(color: AppColors.coalLight(1.0)),
               ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               fixedSize: const Size.fromHeight(48),
             ),
             child: Row(

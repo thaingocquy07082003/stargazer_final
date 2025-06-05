@@ -7,7 +7,7 @@ class ApiConstants {
   static const String model = 'gemini-pro';
   static const Duration timeout = Duration(seconds: 30);
   static final String loginUrl = '${ApiUrl_java}login';
-  static final String registerUrl = '${ApiUrl_java}register'; 
+  static final String registerUrl = '${ApiUrl_java}sign-up'; 
   static final String logoutUrl = '${ApiUrl_java}logout';
   static final String deleteUserUrl = '${ApiUrl_java}deleteUser';
 

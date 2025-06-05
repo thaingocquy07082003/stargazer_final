@@ -82,7 +82,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else {
         final user = await userGetUsecase();
         emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(userId);
+        await saveSharedPrefsUsecase(user!.token,user.name);
         emit(state.copyWith(emailSuccess: true));
         emit(state.copyWith(emailFailure: false));
         emit(state.copyWith(loading: false));
@@ -105,7 +105,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(googleUserNotFound: true));
       } else {
         emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(userId['id']!);
+        await saveSharedPrefsUsecase(user.token,user.name);
         emit(state.copyWith(googleSuccess: true));
       }
     } catch (e) {

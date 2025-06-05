@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stargazer/core/services/data/services/Register_Email.dart';
 import 'package:stargazer/core/services/data/services/save_sharedprefs_usecase.dart';
 import 'package:stargazer/features/register/domain/usecases/email_verification.dart';
 import 'package:stargazer/features/register/domain/usecases/fields_validation_usecase.dart';
@@ -34,7 +35,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       // final credential = await registerGoogleUsecase();
       // final uid = credential[0];
       // final email = credential[1];
-      emit(state.copyWith(isGoogleSignUp: true, email: 'example@gmail.com', uid: 'testUid'));
+      emit(state.copyWith(
+          isGoogleSignUp: true, email: 'example@gmail.com', uid: 'testUid'));
     });
 
     on<_OnEmailSignUpPressed>((event, emit) async {
@@ -43,8 +45,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.password,
         state.name,
       )) {
-        // await registerEmailUsecase(state.email, state.password);
-        // emit(state.copyWith(isEmailSignUp: true));
+        print('da dc goi ');
+        final isRegisterSuccess =
+            await RegisterEmail.signup(state.name, state.email, state.password);
+        emit(state.copyWith(isEmailSignUp: isRegisterSuccess));
         // await emailVerificationUsecase();
       } else {
         emit(state.copyWith(isSignUpSuccess: false, isEmailSignUp: false));
@@ -84,7 +88,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.name,
       )) {
         await userCreateUsecase(state.uid, state.email, state.name);
-        await saveSharedPrefsUsecase(state.uid);
+        await saveSharedPrefsUsecase(state.uid, state.email);
         add(const _OnSignUpSuccess());
       }
     });
@@ -97,7 +101,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           isGoogleSignUp: false,
         ),
       );
-      await saveSharedPrefsUsecase(state.uid);
+      // await saveSharedPrefsUsecase(state.uid);
       await Future.delayed(const Duration(seconds: 2));
       emit(state.copyWith(isLogin: true));
     });
