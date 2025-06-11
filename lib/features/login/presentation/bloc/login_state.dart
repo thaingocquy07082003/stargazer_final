@@ -6,6 +6,7 @@ abstract class LoginState with _$LoginState {
       {@Default(false) bool loading,
       @Default(false) bool emailSuccess,
       @Default(false) bool googleSuccess,
+      @Default(false) bool guestSuccess,
       @Default(false) bool emailFailure,
       @Default(false) bool googleFailure,
       @Default(false) bool googleUserNotFound,

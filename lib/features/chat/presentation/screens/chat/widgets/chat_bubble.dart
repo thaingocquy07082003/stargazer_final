@@ -24,7 +24,11 @@ class CustomChatBubble extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: message.isUser ? AppColors.rice(0.25) : AppColors.blue(1.0),
+          color: message.isUser
+              ? AppColors.rice(0.25)
+              : message.isError
+                  ? Colors.red.withOpacity(0.2)
+                  : AppColors.blue(1.0),
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Padding(
@@ -35,7 +39,9 @@ class CustomChatBubble extends StatelessWidget {
               Text(
                 message.text,
                 style: TextStyle(
-                  color: AppColors.white(1.0),
+                  color: message.isError
+                      ? Colors.red.shade300
+                      : AppColors.white(1.0),
                   fontSize: 15,
                   height: 1.4,
                 ),

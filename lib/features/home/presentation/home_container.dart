@@ -231,6 +231,26 @@ class _HomeContainerState extends State<HomeContainer> {
                     theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     theme,
                   ),
+                  _sidebarItem(
+                    // Icon(
+                    //   Icons.settings,
+                    //   color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    //   size: 36,
+                    // ),
+                    Image.asset(
+                      'lib/assets/images/assets_icons_heart.png',
+                      width: 36,
+                      height: 36,
+                      // ignore: deprecated_member_use
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    ),
+                    text == 0 ? 'Compatibility' : 'Tình duyên',
+                    () {
+                      Navigator.pushNamed(context, RouteConstants.compatibility);
+                    },
+                    theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    theme,
+                  ),
                 ],
               ),
             ),

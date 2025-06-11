@@ -67,16 +67,32 @@ class _ChatInputState extends State<ChatInput> {
                     color: AppColors.rice(1.0),
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_upward_rounded),
-                    color: AppColors.coal(1.0),
-                    onPressed: () {
-                      if (_textController.text.isNotEmpty) {
-                        context
-                            .read<ChatProvider>()
-                            .sendMessage(_textController.text);
-                        _textController.clear();
-                      }
+                  child: Consumer<ChatProvider>(
+                    builder: (context, provider, _) {
+                      return IconButton(
+                        icon: provider.isLoading
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColors.coal(1.0)),
+                                ),
+                              )
+                            : Icon(Icons.arrow_upward_rounded),
+                        color: AppColors.coal(1.0),
+                        onPressed: provider.isLoading
+                            ? null
+                            : () {
+                                if (_textController.text.isNotEmpty) {
+                                  context
+                                      .read<ChatProvider>()
+                                      .sendMessage(_textController.text);
+                                  _textController.clear();
+                                }
+                              },
+                      );
                     },
                   ),
                 ),

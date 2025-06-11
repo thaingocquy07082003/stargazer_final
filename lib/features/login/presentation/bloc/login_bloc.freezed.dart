@@ -245,10 +245,31 @@ class __$PasswordChangedCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
+class _GuestSignIn implements LoginEvent {
+  const _GuestSignIn();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _GuestSignIn);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'LoginEvent.guestSignIn()';
+  }
+}
+
+/// @nodoc
 mixin _$LoginState {
   bool get loading;
   bool get emailSuccess;
   bool get googleSuccess;
+  bool get guestSuccess;
   bool get emailFailure;
   bool get googleFailure;
   bool get googleUserNotFound;
@@ -275,6 +296,8 @@ mixin _$LoginState {
                 other.emailSuccess == emailSuccess) &&
             (identical(other.googleSuccess, googleSuccess) ||
                 other.googleSuccess == googleSuccess) &&
+            (identical(other.guestSuccess, guestSuccess) ||
+                other.guestSuccess == guestSuccess) &&
             (identical(other.emailFailure, emailFailure) ||
                 other.emailFailure == emailFailure) &&
             (identical(other.googleFailure, googleFailure) ||
@@ -296,6 +319,7 @@ mixin _$LoginState {
       loading,
       emailSuccess,
       googleSuccess,
+      guestSuccess,
       emailFailure,
       googleFailure,
       googleUserNotFound,
@@ -307,7 +331,7 @@ mixin _$LoginState {
 
   @override
   String toString() {
-    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
+    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
   }
 }
 
@@ -321,6 +345,7 @@ abstract mixin class $LoginStateCopyWith<$Res> {
       {bool loading,
       bool emailSuccess,
       bool googleSuccess,
+      bool guestSuccess,
       bool emailFailure,
       bool googleFailure,
       bool googleUserNotFound,
@@ -346,6 +371,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object? loading = null,
     Object? emailSuccess = null,
     Object? googleSuccess = null,
+    Object? guestSuccess = null,
     Object? emailFailure = null,
     Object? googleFailure = null,
     Object? googleUserNotFound = null,
@@ -367,6 +393,10 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
       googleSuccess: null == googleSuccess
           ? _self.googleSuccess
           : googleSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      guestSuccess: null == guestSuccess
+          ? _self.guestSuccess
+          : guestSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
       emailFailure: null == emailFailure
           ? _self.emailFailure
@@ -411,6 +441,7 @@ class _LoginState implements LoginState {
       {this.loading = false,
       this.emailSuccess = false,
       this.googleSuccess = false,
+      this.guestSuccess = false,
       this.emailFailure = false,
       this.googleFailure = false,
       this.googleUserNotFound = false,
@@ -429,6 +460,9 @@ class _LoginState implements LoginState {
   @override
   @JsonKey()
   final bool googleSuccess;
+  @override
+  @JsonKey()
+  final bool guestSuccess;
   @override
   @JsonKey()
   final bool emailFailure;
@@ -472,6 +506,8 @@ class _LoginState implements LoginState {
                 other.emailSuccess == emailSuccess) &&
             (identical(other.googleSuccess, googleSuccess) ||
                 other.googleSuccess == googleSuccess) &&
+            (identical(other.guestSuccess, guestSuccess) ||
+                other.guestSuccess == guestSuccess) &&
             (identical(other.emailFailure, emailFailure) ||
                 other.emailFailure == emailFailure) &&
             (identical(other.googleFailure, googleFailure) ||
@@ -493,6 +529,7 @@ class _LoginState implements LoginState {
       loading,
       emailSuccess,
       googleSuccess,
+      guestSuccess,
       emailFailure,
       googleFailure,
       googleUserNotFound,
@@ -504,7 +541,7 @@ class _LoginState implements LoginState {
 
   @override
   String toString() {
-    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
+    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
   }
 }
 
@@ -520,6 +557,7 @@ abstract mixin class _$LoginStateCopyWith<$Res>
       {bool loading,
       bool emailSuccess,
       bool googleSuccess,
+      bool guestSuccess,
       bool emailFailure,
       bool googleFailure,
       bool googleUserNotFound,
@@ -545,6 +583,7 @@ class __$LoginStateCopyWithImpl<$Res> implements _$LoginStateCopyWith<$Res> {
     Object? loading = null,
     Object? emailSuccess = null,
     Object? googleSuccess = null,
+    Object? guestSuccess = null,
     Object? emailFailure = null,
     Object? googleFailure = null,
     Object? googleUserNotFound = null,
@@ -566,6 +605,10 @@ class __$LoginStateCopyWithImpl<$Res> implements _$LoginStateCopyWith<$Res> {
       googleSuccess: null == googleSuccess
           ? _self.googleSuccess
           : googleSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      guestSuccess: null == guestSuccess
+          ? _self.guestSuccess
+          : guestSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
       emailFailure: null == emailFailure
           ? _self.emailFailure

@@ -27,8 +27,9 @@ class LoginContainer extends StatelessWidget {
               },
             );
           }
-          if (state.emailSuccess || state.googleSuccess) {
-            _userProvider.setUser(state.user!);
+          if (state.emailSuccess || state.googleSuccess || state.guestSuccess) {
+            _userProvider.setUser(state.user);
+            print('đang tới home');
             Navigator.popAndPushNamed(
               context,
               RouteConstants.home,
@@ -76,7 +77,7 @@ class LoginContainer extends StatelessWidget {
                   InkWell(
                     borderRadius: BorderRadius.circular(15),
                     onTap: () {
-                      _loginBloc.add(LoginEvent.loginButtonPressed());
+                      _loginBloc.add(LoginEvent.guestSignIn());
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),

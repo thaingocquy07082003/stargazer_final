@@ -30,19 +30,24 @@ tôi cần biết thêm thông tin của bạn.''');
       _addUserMessage(message);
       _context.updateUserProfile(message);
 
-      // Kiểm tra và xử lý thông tin còn thiếu
-      String additionalPrompt = _context.generateMissingInformationPrompt();
-      if (additionalPrompt.isNotEmpty) {
-        _addSystemMessage(additionalPrompt);
-        return;
-      }
-
       _isLoading = true;
       notifyListeners();
 
-      await _generateIntelligentResponse(message);
+      try {
+        final response = await _sendMessage.execute(message);
+        if (response.text.isNotEmpty) {
+          _addSystemMessage(response.text);
+        } else {
+          _addSystemMessage('Hệ thống đang bận, xin lỗi về sự bất tiện này',
+              isError: true);
+        }
+      } catch (e) {
+        print('Error sending message: $e');
+        _addSystemMessage('Hệ thống đang bận, xin lỗi về sự bất tiện này',
+            isError: true);
+      }
     } catch (e) {
-      _addSystemMessage('Có lỗi xảy ra. Hãy thử lại.');
+      _addSystemMessage('Có lỗi xảy ra. Hãy thử lại.', isError: true);
     } finally {
       _isLoading = false;
       notifyListeners();

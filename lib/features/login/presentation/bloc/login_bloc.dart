@@ -52,6 +52,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(password: event.password));
     });
 
+    on<_GuestSignIn>((event, emit) async {
+      await _onGuestSignIn(event, emit);
+    });
+
     add(const LoginEvent.onInitial());
   }
 
@@ -82,7 +86,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else {
         final user = await userGetUsecase();
         emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(user!.token,user.name);
+        await saveSharedPrefsUsecase(user!.token, user.name);
         emit(state.copyWith(emailSuccess: true));
         emit(state.copyWith(emailFailure: false));
         emit(state.copyWith(loading: false));
@@ -105,11 +109,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(googleUserNotFound: true));
       } else {
         emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(user.token,user.name);
+        await saveSharedPrefsUsecase(user.token, user.name);
         emit(state.copyWith(googleSuccess: true));
       }
     } catch (e) {
       emit(state.copyWith(googleFailure: true));
+    }
+  }
+
+  Future<void> _onGuestSignIn(
+    _GuestSignIn event,
+    Emitter<LoginState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(loading: true));
+      // Create a guest user
+      final guestUser = UserInfo(
+        id: 'guest_${DateTime.now().millisecondsSinceEpoch}',
+        name: 'Guest User',
+        email: 'guest@example.com',
+        token: 'guest_token',
+        role: 'user',
+      );
+
+      emit(state.copyWith(user: guestUser));
+      await saveSharedPrefsUsecase(guestUser.token, guestUser.name);
+      emit(state.copyWith(guestSuccess: true));
+    } catch (e) {
+      emit(state.copyWith(googleFailure: true));
+    } finally {
+      emit(state.copyWith(loading: false));
     }
   }
 }

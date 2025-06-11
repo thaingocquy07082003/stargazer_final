@@ -23,4 +23,5 @@ class RouteConstants {
   static const String tarotDetail = '/tarotDetail';
   static const String tarotsDisplay = '/tarotDisplay';
   static const String zodiac = '/zodiac';
+  static const String compatibility = '/compatibility';
 }

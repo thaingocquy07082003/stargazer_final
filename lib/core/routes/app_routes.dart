@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:stargazer/features/Compatibility/CompatibilityScreen.dart';
 // import 'package:path/path.dart';
 import 'package:stargazer/features/camera/presentation/camera_page.dart';
 import 'package:stargazer/features/chat/presentation/screens/chat/chat_screen.dart';
@@ -29,6 +31,7 @@ class AppRoutes {
     RouteConstants.tarotsDisplay,
     RouteConstants.tarotDetail,
     RouteConstants.zodiac,
+    RouteConstants.compatibility
   ];
 
   static const List<String> homeRoutes = [
@@ -52,6 +55,7 @@ class AppRoutes {
     RouteConstants.chat: (context) => ChatScreen(),
     RouteConstants.tarot: (context) => const TarotHome(),
     RouteConstants.tarotsDisplay: (context) => const TarotCards(),
+    RouteConstants.compatibility: (context) => CompatibilityScreen(),
   };
 
   static Map<String, WidgetBuilder> getPages() {
@@ -88,6 +92,8 @@ class AppRoutes {
         return const CardDetail();
       case RouteConstants.zodiac:
         return const ZodiacReading();
+      case RouteConstants.compatibility:
+        return CompatibilityScreen();
       default:
         throw Exception('Route not found');
     }
