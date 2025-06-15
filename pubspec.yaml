@@ -42,6 +42,9 @@ dependencies:
   flutter_svg: ^2.0.17
   flutter_dotenv: ^5.0.2
   dio: ^5.7.0
+  iconsax: ^0.0.8
+  another_flushbar: ^1.12.30
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:

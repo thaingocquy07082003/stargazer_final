@@ -11,8 +11,7 @@ class LoginEmailUsecase {
     // FirebaseAuth? auth,
   });
 
-  Future<String> call(String email, String password) async {
-    final user = await loginRepository.LoginEmail(email, password);
-    return user?.id ?? 'none';
+  Future<Map<String, dynamic>> call(String email, String password) async {
+    return await loginRepository.LoginEmail(email, password);
   }
 }

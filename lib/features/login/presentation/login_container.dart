@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stargazer/core/utils/widgets/app_flush_bar.dart';
 import 'package:stargazer/features/login/presentation/bloc/login_bloc.dart';
 import 'package:stargazer/core/core.dart';
 
@@ -35,10 +36,11 @@ class LoginContainer extends StatelessWidget {
               RouteConstants.home,
             );
           }
-          if (state.emailFailure || state.googleFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Login failed')),
-            );
+          if ((state.emailFailure || state.googleFailure) &&
+              state.errorMessage.isNotEmpty) {
+            CommonFlushBar.show(
+                context, state.errorMessage, EFlushbarStatus.Failure);
+            _loginBloc.add(const LoginEvent.resetError());
           }
           if (state.googleUserNotFound) {
             Navigator.popAndPushNamed(
@@ -52,56 +54,64 @@ class LoginContainer extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 90,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 20.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildLogo(),
-                  SizedBox(height: 16),
-                  _buildLoginForm(),
-                  SizedBox(height: 16),
-                  Text('Sign in as guest',
-                      style: AppTexts.SFProRegular(
-                          color: AppColors.rice(0.5), fontSize: 16)),
-                  SizedBox(height: 16),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () {
-                      _loginBloc.add(LoginEvent.guestSignIn());
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                    top: 90,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 20.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildLogo(),
+                      SizedBox(height: 16),
+                      _buildLoginForm(),
+                      SizedBox(height: 16),
+                      Text('Sign in as guest',
+                          style: AppTexts.SFProRegular(
+                              color: AppColors.rice(0.5), fontSize: 16)),
+                      SizedBox(height: 16),
+                      InkWell(
                         borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
+                        onTap: () {
+                          _loginBloc.add(LoginEvent.guestSignIn());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                          child: const Icon(
+                            Icons.person,
+                            size: 40,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.person,
-                        size: 40,
-                        color: Colors.black,
+                      SizedBox(height: 16),
+                      _buildSignUpBtn(
+                        () {
+                          context.read<LoginBloc>().add(LoginEvent.signUp());
+                        },
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(height: 16),
-                  _buildSignUpBtn(
-                    () {
-                      context.read<LoginBloc>().add(LoginEvent.signUp());
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
+              if (state.loading)
+                Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+            ],
           );
         },
       ),

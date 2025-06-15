@@ -11,4 +11,6 @@ class ApiConstants {
   static final String registerUrl = '${ApiUrl_java}sign-up';
   static final String logoutUrl = '${ApiUrl_java}logout';
   static final String deleteUserUrl = '${ApiUrl_java}deleteUser';
+  static final String  changepasswordUrl = '${ApiUrl_java}change_password';
+  static final String  addReview = '${ApiUrl_java}add_review';
 }

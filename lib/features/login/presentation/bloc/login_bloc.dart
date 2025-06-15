@@ -7,6 +7,7 @@ import 'package:stargazer/features/login/domain/usecase/login_email_usecase.dart
 import 'package:stargazer/features/login/domain/usecase/login_google_usecase.dart';
 import 'package:stargazer/features/login/domain/usecase/login_sharedprefs_usecase.dart';
 import 'package:stargazer/features/login/domain/usecase/user_get_usecase.dart';
+import 'package:stargazer/core/services/data/datasources/remote/login_datasource.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -56,6 +57,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _onGuestSignIn(event, emit);
     });
 
+    on<_ResetError>((event, emit) {
+      emit(state.copyWith(errorMessage: ''));
+    });
+
     add(const LoginEvent.onInitial());
   }
 
@@ -77,22 +82,43 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
-      emit(state.copyWith(loading: true));
-      final userId = await loginEmailUsecase(state.email, state.password);
-      if (userId == 'none') {
-        emit(state.copyWith(emailFailure: true));
-        print('login by email failure');
-        emit(state.copyWith(loading: false));
-      } else {
-        final user = await userGetUsecase();
-        emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(user!.token, user.name);
-        emit(state.copyWith(emailSuccess: true));
-        emit(state.copyWith(emailFailure: false));
-        emit(state.copyWith(loading: false));
+      emit(
+          state.copyWith(loading: true, errorMessage: '', emailFailure: false));
+      final response = await loginEmailUsecase(state.email, state.password);
+
+      if (response['user'] == null) {
+        emit(state.copyWith(
+          emailFailure: true,
+          errorMessage: response['message'] ?? 'Đăng nhập thất bại',
+          loading: false,
+        ));
+        return;
       }
+
+      final user = response['user'];
+      if (user is! UserInfo) {
+        emit(state.copyWith(
+          emailFailure: true,
+          errorMessage: 'Dữ liệu người dùng không hợp lệ',
+          loading: false,
+        ));
+        return;
+      }
+
+      emit(state.copyWith(user: user));
+      await saveSharedPrefsUsecase(user.token, user.name,user.email);
+      emit(state.copyWith(
+        emailSuccess: true,
+        emailFailure: false,
+        loading: false,
+      ));
     } catch (e) {
-      emit(state.copyWith(emailFailure: true));
+      print('Login error: $e');
+      emit(state.copyWith(
+        emailFailure: true,
+        errorMessage: e.toString(),
+        loading: false,
+      ));
     }
   }
 
@@ -109,7 +135,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(googleUserNotFound: true));
       } else {
         emit(state.copyWith(user: user));
-        await saveSharedPrefsUsecase(user.token, user.name);
+        await saveSharedPrefsUsecase(user.token, user.name,user.email);
         emit(state.copyWith(googleSuccess: true));
       }
     } catch (e) {
@@ -133,7 +159,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
 
       emit(state.copyWith(user: guestUser));
-      await saveSharedPrefsUsecase(guestUser.token, guestUser.name);
+      await saveSharedPrefsUsecase(guestUser.token, guestUser.name,guestUser.email);
       emit(state.copyWith(guestSuccess: true));
     } catch (e) {
       emit(state.copyWith(googleFailure: true));

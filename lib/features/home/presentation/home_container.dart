@@ -251,6 +251,49 @@ class _HomeContainerState extends State<HomeContainer> {
                     theme == 1 ? AppColors.rice(1.0) : Colors.black,
                     theme,
                   ),
+                  SizedBox(
+                    height: 200,
+                  ),
+                  _sidebarItem(
+                    // Icon(
+                    //   Icons.settings,
+                    //   color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    //   size: 36,
+                    // ),
+                    SvgPicture.asset(
+                      'lib/assets/svgs/changepass.svg',
+                      width: 36,
+                      height: 36,
+                      // ignore: deprecated_member_use
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    ),
+                    text == 0 ? 'Change Password' : 'Đổi mật khẩu',
+                    () {
+                      Navigator.pushNamed(context, RouteConstants.changepassword);
+                    },
+                    theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    theme,
+                  ),
+                  _sidebarItem(
+                    // Icon(
+                    //   Icons.settings,
+                    //   color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    //   size: 36,
+                    // ),
+                    SvgPicture.asset(
+                      'lib/assets/svgs/review.svg',
+                      width: 36,
+                      height: 36,
+                      // ignore: deprecated_member_use
+                      color: theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    ),
+                    text == 0 ? 'Feedback' : 'Góp ý',
+                    () {
+                      Navigator.pushNamed(context, RouteConstants.addReview);
+                    },
+                    theme == 1 ? AppColors.rice(1.0) : Colors.black,
+                    theme,
+                  ),
                 ],
               ),
             ),

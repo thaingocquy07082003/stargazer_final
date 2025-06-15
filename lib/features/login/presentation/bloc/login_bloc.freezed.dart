@@ -265,6 +265,26 @@ class _GuestSignIn implements LoginEvent {
 }
 
 /// @nodoc
+
+class _ResetError implements LoginEvent {
+  const _ResetError();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _ResetError);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'LoginEvent.resetError()';
+  }
+}
+
+/// @nodoc
 mixin _$LoginState {
   bool get loading;
   bool get emailSuccess;
@@ -278,6 +298,7 @@ mixin _$LoginState {
   String get email;
   String get password;
   String get id;
+  String get errorMessage;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -310,7 +331,9 @@ mixin _$LoginState {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -327,11 +350,12 @@ mixin _$LoginState {
       user,
       email,
       password,
-      id);
+      id,
+      errorMessage);
 
   @override
   String toString() {
-    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
+    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id, errorMessage: $errorMessage)';
   }
 }
 
@@ -353,7 +377,8 @@ abstract mixin class $LoginStateCopyWith<$Res> {
       UserInfo? user,
       String email,
       String password,
-      String id});
+      String id,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -380,6 +405,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object? email = null,
     Object? password = null,
     Object? id = null,
+    Object? errorMessage = null,
   }) {
     return _then(_self.copyWith(
       loading: null == loading
@@ -430,6 +456,10 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      errorMessage: null == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -449,7 +479,8 @@ class _LoginState implements LoginState {
       this.user = null,
       this.email = '',
       this.password = '',
-      this.id = ''});
+      this.id = '',
+      this.errorMessage = ''});
 
   @override
   @JsonKey()
@@ -487,6 +518,9 @@ class _LoginState implements LoginState {
   @override
   @JsonKey()
   final String id;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -520,7 +554,9 @@ class _LoginState implements LoginState {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -537,11 +573,12 @@ class _LoginState implements LoginState {
       user,
       email,
       password,
-      id);
+      id,
+      errorMessage);
 
   @override
   String toString() {
-    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id)';
+    return 'LoginState(loading: $loading, emailSuccess: $emailSuccess, googleSuccess: $googleSuccess, guestSuccess: $guestSuccess, emailFailure: $emailFailure, googleFailure: $googleFailure, googleUserNotFound: $googleUserNotFound, isSignUpBtnPressed: $isSignUpBtnPressed, user: $user, email: $email, password: $password, id: $id, errorMessage: $errorMessage)';
   }
 }
 
@@ -565,7 +602,8 @@ abstract mixin class _$LoginStateCopyWith<$Res>
       UserInfo? user,
       String email,
       String password,
-      String id});
+      String id,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -592,6 +630,7 @@ class __$LoginStateCopyWithImpl<$Res> implements _$LoginStateCopyWith<$Res> {
     Object? email = null,
     Object? password = null,
     Object? id = null,
+    Object? errorMessage = null,
   }) {
     return _then(_LoginState(
       loading: null == loading
@@ -641,6 +680,10 @@ class __$LoginStateCopyWithImpl<$Res> implements _$LoginStateCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      errorMessage: null == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

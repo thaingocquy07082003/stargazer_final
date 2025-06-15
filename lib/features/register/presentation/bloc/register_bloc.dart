@@ -88,7 +88,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.name,
       )) {
         await userCreateUsecase(state.uid, state.email, state.name);
-        await saveSharedPrefsUsecase(state.uid, state.email);
+        await saveSharedPrefsUsecase(state.uid,state.name, state.email);
         add(const _OnSignUpSuccess());
       }
     });

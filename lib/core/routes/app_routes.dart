@@ -3,11 +3,13 @@ import 'package:path/path.dart';
 import 'package:stargazer/features/Compatibility/CompatibilityScreen.dart';
 // import 'package:path/path.dart';
 import 'package:stargazer/features/camera/presentation/camera_page.dart';
+import 'package:stargazer/features/changepassword/ChangePasswordScreen.dart';
 import 'package:stargazer/features/chat/presentation/screens/chat/chat_screen.dart';
 
 import 'package:stargazer/features/home/presentation/home_page.dart';
 import 'package:stargazer/features/login/presentation/login_page.dart';
 import 'package:stargazer/features/register/presentation/register_page.dart';
+import 'package:stargazer/features/review/ReviewScreen.dart';
 import 'package:stargazer/features/setting/presentation/view/LanguageSelect.dart';
 import 'package:stargazer/features/setting/presentation/view/SettingScreen.dart';
 import 'package:stargazer/features/splash/presentations/splash_page.dart';
@@ -31,7 +33,9 @@ class AppRoutes {
     RouteConstants.tarotsDisplay,
     RouteConstants.tarotDetail,
     RouteConstants.zodiac,
-    RouteConstants.compatibility
+    RouteConstants.compatibility,
+    RouteConstants.changepassword,
+    RouteConstants.addReview
   ];
 
   static const List<String> homeRoutes = [
@@ -56,6 +60,8 @@ class AppRoutes {
     RouteConstants.tarot: (context) => const TarotHome(),
     RouteConstants.tarotsDisplay: (context) => const TarotCards(),
     RouteConstants.compatibility: (context) => CompatibilityScreen(),
+    RouteConstants.changepassword: (context) => ChangePasswordScreen(),
+    RouteConstants.addReview: (context) => ReviewScreen()
   };
 
   static Map<String, WidgetBuilder> getPages() {
@@ -94,6 +100,10 @@ class AppRoutes {
         return const ZodiacReading();
       case RouteConstants.compatibility:
         return CompatibilityScreen();
+      case RouteConstants.changepassword:
+        return ChangePasswordScreen();
+      case RouteConstants.addReview:
+        return ReviewScreen();
       default:
         throw Exception('Route not found');
     }

@@ -14,5 +14,6 @@ abstract class LoginState with _$LoginState {
       @Default(null) UserInfo? user,
       @Default('') String email,
       @Default('') String password,
-      @Default('') String id}) = _LoginState;
+      @Default('') String id,
+      @Default('') String errorMessage}) = _LoginState;
 }

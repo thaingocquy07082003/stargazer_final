@@ -3,7 +3,7 @@ import 'package:stargazer/core/services/data/datasources/local/login-register_lo
 class SaveSharedPrefsUsecase {
   SaveSharedPrefsUsecase();
 
-  Future<void> call(String token,String name) async {
-    return await LoginRegisterLocalDatasource().saveUser(token,name);
+  Future<void> call(String token,String name,String email) async {
+    return await LoginRegisterLocalDatasource().saveUser(token,name,email);
   }
 }

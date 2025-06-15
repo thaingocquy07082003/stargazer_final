@@ -20,12 +20,11 @@ class LoginRepositoryImpl implements LoginRepository {
       throw UserNotFoundException(e.toString());
     }
   }
-  
+
   @override
-  Future<UserInfo?> LoginEmail(String email, String password) async {
+  Future<Map<String, dynamic>> LoginEmail(String email, String password) async {
     try {
-      final user = await LoginDataSourceImpl().loginWithEmail(email, password);
-      return user;
+      return await LoginDataSourceImpl().loginWithEmail(email, password);
     } catch (e) {
       throw UserNotFoundException(e.toString());
     }

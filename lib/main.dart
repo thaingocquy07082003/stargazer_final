@@ -16,6 +16,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stargazer/features/tarrot_telling/presentation/provider/tarot_provider.dart';
 import 'package:stargazer/features/zodiac/zodiac_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -49,12 +50,19 @@ class MyApp extends StatelessWidget {
               ChatProvider(SendMessage(context.read<ChatRepositoryImpl>())),
         ), // Ensure SendMessage is instantiated with ChatRepository
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.initialRoute,
-        routes: {
-          ...AppRoutes.getPages(),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812), // Design size based on iPhone X
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppRoutes.initialRoute,
+            routes: {
+              ...AppRoutes.getPages(),
+            },
+          );
         },
       ),
     );
