@@ -11,7 +11,7 @@ class GeminiDatasource {
       return response;
     } catch (e) {
       print('Lỗi trong GeminiDatasource: $e');
-      throw Exception('Không thể kết nối với Gemini: ${e.toString()}');
+      throw Exception('Không thể kết nối với Chatbot: ${e.toString()}');
     }
   }
 }

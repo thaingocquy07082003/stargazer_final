@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:stargazer/core/constants/api_constants.dart';
 
 class GeminiService {
-  final String _apiUrl = ApiConstants.ApiLLM; // Replace with your actual API URL
+  final String _apiUrl =
+      ApiConstants.ApiLLM; // Replace with your actual API URL
 
   Future<String> getResponse(String message) async {
     try {
@@ -13,7 +14,6 @@ class GeminiService {
         headers: {
           'Content-Type': 'application/json',
         },
-
         body: jsonEncode({
           'message': message,
         }),
@@ -23,6 +23,8 @@ class GeminiService {
         final data = jsonDecode(response.body);
         return data['response'] ?? 'Không nhận được phản hồi từ hệ thống';
       } else {
+        print('Lỗi API - Status Code: ${response.statusCode}');
+        print('Response Body: ${response.body}');
         throw Exception('Lỗi kết nối: ${response.statusCode}');
       }
     } catch (e) {

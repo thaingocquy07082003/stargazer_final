@@ -19,10 +19,6 @@ mixin _$PredictionBloc {
   set image(XFile? value);
   PredictingImageUsecase get predictingImageUsecase;
   set predictingImageUsecase(PredictingImageUsecase value);
-  PredictingUsecase get predictingUsecase;
-  set predictingUsecase(PredictingUsecase value);
-  PredictionToImgUsecase get predictionToImgUsecase;
-  set predictionToImgUsecase(PredictionToImgUsecase value);
 
   /// Create a copy of PredictionBloc
   /// with the given fields replaced by the non-null parameter values.
@@ -39,20 +35,15 @@ mixin _$PredictionBloc {
             other is PredictionBloc &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.predictingImageUsecase, predictingImageUsecase) ||
-                other.predictingImageUsecase == predictingImageUsecase) &&
-            (identical(other.predictingUsecase, predictingUsecase) ||
-                other.predictingUsecase == predictingUsecase) &&
-            (identical(other.predictionToImgUsecase, predictionToImgUsecase) ||
-                other.predictionToImgUsecase == predictionToImgUsecase));
+                other.predictingImageUsecase == predictingImageUsecase));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, image, predictingImageUsecase,
-      predictingUsecase, predictionToImgUsecase);
+  int get hashCode => Object.hash(runtimeType, image, predictingImageUsecase);
 
   @override
   String toString() {
-    return 'PredictionBloc(image: $image, predictingImageUsecase: $predictingImageUsecase, predictingUsecase: $predictingUsecase, predictionToImgUsecase: $predictionToImgUsecase)';
+    return 'PredictionBloc(image: $image, predictingImageUsecase: $predictingImageUsecase)';
   }
 }
 
@@ -62,11 +53,7 @@ abstract mixin class $PredictionBlocCopyWith<$Res> {
           PredictionBloc value, $Res Function(PredictionBloc) _then) =
       _$PredictionBlocCopyWithImpl;
   @useResult
-  $Res call(
-      {XFile? image,
-      PredictingImageUsecase predictingImageUsecase,
-      PredictingUsecase predictingUsecase,
-      PredictionToImgUsecase predictionToImgUsecase});
+  $Res call({XFile? image, PredictingImageUsecase predictingImageUsecase});
 }
 
 /// @nodoc
@@ -84,8 +71,6 @@ class _$PredictionBlocCopyWithImpl<$Res>
   $Res call({
     Object? image = freezed,
     Object? predictingImageUsecase = null,
-    Object? predictingUsecase = null,
-    Object? predictionToImgUsecase = null,
   }) {
     return _then(PredictionBloc(
       image: freezed == image
@@ -96,14 +81,6 @@ class _$PredictionBlocCopyWithImpl<$Res>
           ? _self.predictingImageUsecase
           : predictingImageUsecase // ignore: cast_nullable_to_non_nullable
               as PredictingImageUsecase,
-      predictingUsecase: null == predictingUsecase
-          ? _self.predictingUsecase
-          : predictingUsecase // ignore: cast_nullable_to_non_nullable
-              as PredictingUsecase,
-      predictionToImgUsecase: null == predictionToImgUsecase
-          ? _self.predictionToImgUsecase
-          : predictionToImgUsecase // ignore: cast_nullable_to_non_nullable
-              as PredictionToImgUsecase,
     ));
   }
 }
@@ -193,14 +170,14 @@ class _PredictionDone implements PredictionEvent {
 
 /// @nodoc
 mixin _$PredictionState {
-  XFile? get image;
-  XFile? get predictionImage;
-  String get prediction;
-  List<double> get points;
   bool get predictionInProgress;
   bool get predictionSuccess;
-  bool get predictionFailure;
   bool get predictionDone;
+  XFile? get image;
+  XFile? get predictionImage;
+  List<dynamic>? get points;
+  String? get prediction;
+  String? get predictionError;
 
   /// Create a copy of PredictionState
   /// with the given fields replaced by the non-null parameter values.
@@ -215,37 +192,37 @@ mixin _$PredictionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PredictionState &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.predictionImage, predictionImage) ||
-                other.predictionImage == predictionImage) &&
-            (identical(other.prediction, prediction) ||
-                other.prediction == prediction) &&
-            const DeepCollectionEquality().equals(other.points, points) &&
             (identical(other.predictionInProgress, predictionInProgress) ||
                 other.predictionInProgress == predictionInProgress) &&
             (identical(other.predictionSuccess, predictionSuccess) ||
                 other.predictionSuccess == predictionSuccess) &&
-            (identical(other.predictionFailure, predictionFailure) ||
-                other.predictionFailure == predictionFailure) &&
             (identical(other.predictionDone, predictionDone) ||
-                other.predictionDone == predictionDone));
+                other.predictionDone == predictionDone) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.predictionImage, predictionImage) ||
+                other.predictionImage == predictionImage) &&
+            const DeepCollectionEquality().equals(other.points, points) &&
+            (identical(other.prediction, prediction) ||
+                other.prediction == prediction) &&
+            (identical(other.predictionError, predictionError) ||
+                other.predictionError == predictionError));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      image,
-      predictionImage,
-      prediction,
-      const DeepCollectionEquality().hash(points),
       predictionInProgress,
       predictionSuccess,
-      predictionFailure,
-      predictionDone);
+      predictionDone,
+      image,
+      predictionImage,
+      const DeepCollectionEquality().hash(points),
+      prediction,
+      predictionError);
 
   @override
   String toString() {
-    return 'PredictionState(image: $image, predictionImage: $predictionImage, prediction: $prediction, points: $points, predictionInProgress: $predictionInProgress, predictionSuccess: $predictionSuccess, predictionFailure: $predictionFailure, predictionDone: $predictionDone)';
+    return 'PredictionState(predictionInProgress: $predictionInProgress, predictionSuccess: $predictionSuccess, predictionDone: $predictionDone, image: $image, predictionImage: $predictionImage, points: $points, prediction: $prediction, predictionError: $predictionError)';
   }
 }
 
@@ -256,14 +233,14 @@ abstract mixin class $PredictionStateCopyWith<$Res> {
       _$PredictionStateCopyWithImpl;
   @useResult
   $Res call(
-      {XFile? image,
-      XFile? predictionImage,
-      String prediction,
-      List<double> points,
-      bool predictionInProgress,
+      {bool predictionInProgress,
       bool predictionSuccess,
-      bool predictionFailure,
-      bool predictionDone});
+      bool predictionDone,
+      XFile? image,
+      XFile? predictionImage,
+      List<dynamic>? points,
+      String? prediction,
+      String? predictionError});
 }
 
 /// @nodoc
@@ -279,32 +256,16 @@ class _$PredictionStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
-    Object? predictionImage = freezed,
-    Object? prediction = null,
-    Object? points = null,
     Object? predictionInProgress = null,
     Object? predictionSuccess = null,
-    Object? predictionFailure = null,
     Object? predictionDone = null,
+    Object? image = freezed,
+    Object? predictionImage = freezed,
+    Object? points = freezed,
+    Object? prediction = freezed,
+    Object? predictionError = freezed,
   }) {
     return _then(_self.copyWith(
-      image: freezed == image
-          ? _self.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-      predictionImage: freezed == predictionImage
-          ? _self.predictionImage
-          : predictionImage // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-      prediction: null == prediction
-          ? _self.prediction
-          : prediction // ignore: cast_nullable_to_non_nullable
-              as String,
-      points: null == points
-          ? _self.points
-          : points // ignore: cast_nullable_to_non_nullable
-              as List<double>,
       predictionInProgress: null == predictionInProgress
           ? _self.predictionInProgress
           : predictionInProgress // ignore: cast_nullable_to_non_nullable
@@ -313,50 +274,47 @@ class _$PredictionStateCopyWithImpl<$Res>
           ? _self.predictionSuccess
           : predictionSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
-      predictionFailure: null == predictionFailure
-          ? _self.predictionFailure
-          : predictionFailure // ignore: cast_nullable_to_non_nullable
-              as bool,
       predictionDone: null == predictionDone
           ? _self.predictionDone
           : predictionDone // ignore: cast_nullable_to_non_nullable
               as bool,
+      image: freezed == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      predictionImage: freezed == predictionImage
+          ? _self.predictionImage
+          : predictionImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      points: freezed == points
+          ? _self.points
+          : points // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      prediction: freezed == prediction
+          ? _self.prediction
+          : prediction // ignore: cast_nullable_to_non_nullable
+              as String?,
+      predictionError: freezed == predictionError
+          ? _self.predictionError
+          : predictionError // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _PredictionState extends PredictionState {
+class _PredictionState implements PredictionState {
   const _PredictionState(
-      {this.image = null,
-      this.predictionImage = null,
-      this.prediction = '',
-      final List<double> points = const [],
-      this.predictionInProgress = false,
+      {this.predictionInProgress = false,
       this.predictionSuccess = false,
-      this.predictionFailure = false,
-      this.predictionDone = false})
-      : _points = points,
-        super._();
-
-  @override
-  @JsonKey()
-  final XFile? image;
-  @override
-  @JsonKey()
-  final XFile? predictionImage;
-  @override
-  @JsonKey()
-  final String prediction;
-  final List<double> _points;
-  @override
-  @JsonKey()
-  List<double> get points {
-    if (_points is EqualUnmodifiableListView) return _points;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_points);
-  }
+      this.predictionDone = false,
+      this.image,
+      this.predictionImage,
+      final List<dynamic>? points,
+      this.prediction,
+      this.predictionError})
+      : _points = points;
 
   @override
   @JsonKey()
@@ -366,10 +324,25 @@ class _PredictionState extends PredictionState {
   final bool predictionSuccess;
   @override
   @JsonKey()
-  final bool predictionFailure;
-  @override
-  @JsonKey()
   final bool predictionDone;
+  @override
+  final XFile? image;
+  @override
+  final XFile? predictionImage;
+  final List<dynamic>? _points;
+  @override
+  List<dynamic>? get points {
+    final value = _points;
+    if (value == null) return null;
+    if (_points is EqualUnmodifiableListView) return _points;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? prediction;
+  @override
+  final String? predictionError;
 
   /// Create a copy of PredictionState
   /// with the given fields replaced by the non-null parameter values.
@@ -384,37 +357,37 @@ class _PredictionState extends PredictionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _PredictionState &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.predictionImage, predictionImage) ||
-                other.predictionImage == predictionImage) &&
-            (identical(other.prediction, prediction) ||
-                other.prediction == prediction) &&
-            const DeepCollectionEquality().equals(other._points, _points) &&
             (identical(other.predictionInProgress, predictionInProgress) ||
                 other.predictionInProgress == predictionInProgress) &&
             (identical(other.predictionSuccess, predictionSuccess) ||
                 other.predictionSuccess == predictionSuccess) &&
-            (identical(other.predictionFailure, predictionFailure) ||
-                other.predictionFailure == predictionFailure) &&
             (identical(other.predictionDone, predictionDone) ||
-                other.predictionDone == predictionDone));
+                other.predictionDone == predictionDone) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.predictionImage, predictionImage) ||
+                other.predictionImage == predictionImage) &&
+            const DeepCollectionEquality().equals(other._points, _points) &&
+            (identical(other.prediction, prediction) ||
+                other.prediction == prediction) &&
+            (identical(other.predictionError, predictionError) ||
+                other.predictionError == predictionError));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      image,
-      predictionImage,
-      prediction,
-      const DeepCollectionEquality().hash(_points),
       predictionInProgress,
       predictionSuccess,
-      predictionFailure,
-      predictionDone);
+      predictionDone,
+      image,
+      predictionImage,
+      const DeepCollectionEquality().hash(_points),
+      prediction,
+      predictionError);
 
   @override
   String toString() {
-    return 'PredictionState(image: $image, predictionImage: $predictionImage, prediction: $prediction, points: $points, predictionInProgress: $predictionInProgress, predictionSuccess: $predictionSuccess, predictionFailure: $predictionFailure, predictionDone: $predictionDone)';
+    return 'PredictionState(predictionInProgress: $predictionInProgress, predictionSuccess: $predictionSuccess, predictionDone: $predictionDone, image: $image, predictionImage: $predictionImage, points: $points, prediction: $prediction, predictionError: $predictionError)';
   }
 }
 
@@ -427,14 +400,14 @@ abstract mixin class _$PredictionStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {XFile? image,
-      XFile? predictionImage,
-      String prediction,
-      List<double> points,
-      bool predictionInProgress,
+      {bool predictionInProgress,
       bool predictionSuccess,
-      bool predictionFailure,
-      bool predictionDone});
+      bool predictionDone,
+      XFile? image,
+      XFile? predictionImage,
+      List<dynamic>? points,
+      String? prediction,
+      String? predictionError});
 }
 
 /// @nodoc
@@ -450,32 +423,16 @@ class __$PredictionStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? image = freezed,
-    Object? predictionImage = freezed,
-    Object? prediction = null,
-    Object? points = null,
     Object? predictionInProgress = null,
     Object? predictionSuccess = null,
-    Object? predictionFailure = null,
     Object? predictionDone = null,
+    Object? image = freezed,
+    Object? predictionImage = freezed,
+    Object? points = freezed,
+    Object? prediction = freezed,
+    Object? predictionError = freezed,
   }) {
     return _then(_PredictionState(
-      image: freezed == image
-          ? _self.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-      predictionImage: freezed == predictionImage
-          ? _self.predictionImage
-          : predictionImage // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-      prediction: null == prediction
-          ? _self.prediction
-          : prediction // ignore: cast_nullable_to_non_nullable
-              as String,
-      points: null == points
-          ? _self._points
-          : points // ignore: cast_nullable_to_non_nullable
-              as List<double>,
       predictionInProgress: null == predictionInProgress
           ? _self.predictionInProgress
           : predictionInProgress // ignore: cast_nullable_to_non_nullable
@@ -484,14 +441,30 @@ class __$PredictionStateCopyWithImpl<$Res>
           ? _self.predictionSuccess
           : predictionSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
-      predictionFailure: null == predictionFailure
-          ? _self.predictionFailure
-          : predictionFailure // ignore: cast_nullable_to_non_nullable
-              as bool,
       predictionDone: null == predictionDone
           ? _self.predictionDone
           : predictionDone // ignore: cast_nullable_to_non_nullable
               as bool,
+      image: freezed == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      predictionImage: freezed == predictionImage
+          ? _self.predictionImage
+          : predictionImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      points: freezed == points
+          ? _self._points
+          : points // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      prediction: freezed == prediction
+          ? _self.prediction
+          : prediction // ignore: cast_nullable_to_non_nullable
+              as String?,
+      predictionError: freezed == predictionError
+          ? _self.predictionError
+          : predictionError // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

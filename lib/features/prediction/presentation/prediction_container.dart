@@ -33,10 +33,9 @@ class PredictionContainer extends StatelessWidget {
           backgroundColor: AppColors.coalLight(1.0),
           body: Container(
             padding: const EdgeInsets.all(24),
-            child:
-                state.predictionDone
-                    ? _buildPrediction()
-                    : _buildPredictionImage(),
+            child: state.predictionDone
+                ? _buildPrediction()
+                : _buildPredictionImage(),
           ),
         );
       },
@@ -116,7 +115,7 @@ class PredictionContainer extends StatelessWidget {
         spacing: 16,
         children: [
           Text(
-            predictionBloc.state.prediction,
+            predictionBloc.state.prediction ?? '',
             style: TextStyle(color: AppColors.rice(1.0), fontSize: 16),
           ),
           Row(

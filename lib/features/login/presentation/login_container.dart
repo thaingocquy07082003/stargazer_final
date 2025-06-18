@@ -165,6 +165,8 @@ class LoginContainer extends StatelessWidget {
             onChanged: (value) {
               _loginBloc.add(LoginEvent.emailChanged(value));
             },
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 16),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.coalLight(1.0),
@@ -185,6 +187,8 @@ class LoginContainer extends StatelessWidget {
             onChanged: (value) {
               _loginBloc.add(LoginEvent.passwordChanged(value));
             },
+            style:
+                AppTexts.SFProRegular(color: AppColors.rice(1.0), fontSize: 16),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.coalLight(1.0),

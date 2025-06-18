@@ -18,8 +18,8 @@ class PredictionPage extends StatelessWidget {
           (context) => PredictionBloc(
             image: image,
             predictingImageUsecase: PredictingImageUsecase(),
-            predictingUsecase: PredictingUsecase(),
-            predictionToImgUsecase: PredictionToImgUsecase(),
+            // predictingUsecase: PredictingUsecase(),
+            // predictionToImgUsecase: PredictionToImgUsecase(),
           ),
 
       child: PredictionContainer(),

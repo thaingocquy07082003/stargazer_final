@@ -18,7 +18,7 @@ class ChatProvider with ChangeNotifier {
 
   void _initializeConversation() {
     _addSystemMessage('''
-🔮 Xin chào! Tôi là thầy bói Gemini.
+🔮 Xin chào! Tôi là thầy bói StarGazer.
 Để xem chính xác vận mệnh, 
 tôi cần biết thêm thông tin của bạn.''');
   }

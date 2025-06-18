@@ -1,133 +1,118 @@
-import 'package:camera/camera.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
-import 'package:image/image.dart' as img;
+import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:io' show Platform;
-import 'package:path_provider/path_provider.dart';
-import 'package:stargazer/core/constants.dart';
+import 'package:camera/camera.dart';
+import 'package:http/http.dart' as http;
+// import 'package:stargazer/core/constants.dart';
+import 'package:stargazer/core/constants/api_constants.dart';
+
+// class PredictionResult {
+//   final String annotatedImage; // Base64 encoded annotated image
+//   final List<double> predictions; // List of predictions with keypoints
+
+//   PredictionResult({
+//     required this.annotatedImage,
+//     required this.predictions,
+//   });
+
+//   // Factory constructor to create PredictionResult from JSON
+//   factory PredictionResult.fromJson(Map<String, dynamic> json) {
+//     return PredictionResult(
+//       annotatedImage: json['annotated_image'],
+//       predictions: List<double>.from(json['predictions']),
+//     );
+//   }
+// }
+class PalmPrediction {
+  final String lineType; // 'fate', 'head', 'heart', 'life'
+  final String interpretation;
+  final double confidence;
+  final double length;
+  final String shape; // 'straight' or 'curved'
+
+  PalmPrediction({
+    required this.lineType,
+    required this.interpretation,
+    required this.confidence,
+    required this.length,
+    required this.shape,
+  });
+
+  factory PalmPrediction.fromJson(Map<String, dynamic> json) {
+    return PalmPrediction(
+      lineType: json['line_type'],
+      interpretation: json['interpretation'],
+      confidence: (json['confidence'] as num).toDouble(),
+      length: (json['length'] as num).toDouble(),
+      shape: json['shape'],
+    );
+  }
+}
+
+class PredictionResult {
+  final String annotatedImage; // Base64 encoded annotated image
+  final List<double> predictions; // List of predictions with keypoints
+  final List<PalmPrediction>
+      palmPredictions; // List of palm reading predictions
+
+  PredictionResult({
+    required this.annotatedImage,
+    required this.predictions,
+    required this.palmPredictions,
+  });
+
+  // Factory constructor to create PredictionResult from JSON
+  factory PredictionResult.fromJson(Map<String, dynamic> json) {
+    return PredictionResult(
+      annotatedImage: json['annotated_image'],
+      predictions: List<double>.from(json['predictions']),
+      palmPredictions: (json['palm_predictions'] as List)
+          .map((prediction) => PalmPrediction.fromJson(prediction))
+          .toList(),
+    );
+  }
+}
 
 class PredictingImageUsecase {
-  static const imageSize = 224; // Define your model's required image size
-  Interpreter? _interpreter;
-  bool _isInitialized = false;
-
-  Future<void> initialize() async {
+  Future<PredictionResult> call(XFile imageFile) async {
     try {
-      if (!_isInitialized) {
-        _interpreter = await Interpreter.fromAsset(MODEL_PATH);
-        _isInitialized = true;
+      // Validate image file
+      final file = File(imageFile.path);
+      if (!await file.exists()) {
+        throw Exception('Image file does not exist');
+      }
+
+      // Create multipart request
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(ApiConstants.ApiPalmline),
+      );
+
+      // Add image file to the request
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',
+          imageFile.path,
+        ),
+      );
+
+      // Send request
+      final response = await request.send();
+      print('da goi toi api nhan dien');
+
+      // Read response
+      final responseBody = await response.stream.bytesToString();
+      print('Response status: ${response.statusCode}');
+      print('Response body: $responseBody');
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(responseBody);
+        return PredictionResult.fromJson(responseData);
+      } else {
+        throw Exception('Failed to process image: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error initializing interpreter: $e');
+      print('Error processing image: $e');
       rethrow;
-    }
-  }
-
-  Future<List<double>> call(XFile imageFile) async {
-    // Check if interpreter is initialized
-    if (!_isInitialized || _interpreter == null) {
-      await initialize();
-    }
-
-    if (_interpreter == null) {
-      throw StateError('Failed to initialize TFLite interpreter');
-    }
-
-    // Read the image file
-    final File file = File(imageFile.path);
-    final bytes = await file.readAsBytes();
-
-    // Decode and preprocess the image
-    final image = img.decodeImage(bytes);
-    if (image == null) throw Exception('Failed to decode image');
-    final processedImage = preprocessImage(image);
-
-    // Reshape the input to match model's expected shape [1, 224, 224, 3]
-    final inputArray = processedImage.reshape([1, imageSize, imageSize, 3]);
-
-    // Get output shape and create output array
-    final outputShape = _interpreter!.getOutputTensor(0).shape;
-    print('outputShape co dang : $outputShape');
-    final outputSize = outputShape.reduce((a, b) => a * b);
-    var output = List<double>.filled(outputSize, 0).reshape(outputShape);
-
-    try {
-      _interpreter!.run(inputArray, output);
-      // Extract the predictions from the nested list
-      List<double> flattenedOutput = output[0]; // Get first batch
-      return flattenedOutput;
-    } catch (e) {
-      print('Error during inference: $e');
-      rethrow;
-    }
-  }
-
-  // List<double> preprocessImage(img.Image image) {
-  //   // Resize the image
-  //   final resizedImage = img.copyResize(
-  //     image,
-  //     width: imageSize,
-  //     height: imageSize,
-  //   );
-
-  //   // Convert to RGB if needed
-  //   final rgbImage = img.grayscale(resizedImage);
-
-  //   // Create input array and normalize pixel values
-  //   final input = Float32List(1 * imageSize * imageSize * 3);
-  //   var pixelIndex = 0;
-
-  //   for (var y = 0; y < imageSize; y++) {
-  //     for (var x = 0; x < imageSize; x++) {
-  //       final pixel = rgbImage.getPixel(x, y);
-  //       // Normalize to [-1, 1] range
-  //       input[pixelIndex++] = (pixel.r / 255.0) * 2 - 1;
-  //       input[pixelIndex++] = (pixel.g / 255.0) * 2 - 1;
-  //       input[pixelIndex++] = (pixel.b / 255.0) * 2 - 1;
-  //     }
-  //   }
-  //   print('input dau vao co dang : ${input}');
-  //   return input;
-  // }
-  List<double> preprocessImage(img.Image image) {
-    // Check if image is valid
-    if (image == null || image.width <= 0 || image.height <= 0) {
-      throw ArgumentError('Image is invalid');
-    }
-
-    // Resize the image to desired size
-    final resizedImage = img.copyResize(
-      image,
-      width: imageSize,
-      height: imageSize,
-    );
-
-    // Create input array and normalize pixel values to [0, 1] range
-    final input = Float32List(1 * imageSize * imageSize * 3);
-    var pixelIndex = 0;
-
-    for (var y = 0; y < imageSize; y++) {
-      for (var x = 0; x < imageSize; x++) {
-        final pixel = resizedImage.getPixel(x, y);
-        // Normalize to [0, 1] range
-        input[pixelIndex++] = pixel.r / 255.0;
-        input[pixelIndex++] = pixel.g / 255.0;
-        input[pixelIndex++] = pixel.b / 255.0;
-      }
-    }
-
-    // Log for debugging
-    print('Input length: ${input.length}');
-    print('Sample input: ${input.sublist(0, 10)}');
-    return input;
-  }
-
-  void dispose() {
-    if (_isInitialized) {
-      _interpreter?.close();
-      _interpreter = null;
-      _isInitialized = false;
     }
   }
 }
