@@ -17,13 +17,16 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stargazer/features/tarrot_telling/presentation/provider/tarot_provider.dart';
 import 'package:stargazer/features/zodiac/zodiac_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
-
   runApp(MyApp());
   FlutterNativeSplash.remove();
 }
@@ -31,6 +34,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
@@ -62,6 +66,9 @@ class MyApp extends StatelessWidget {
             routes: {
               ...AppRoutes.getPages(),
             },
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
           );
         },
       ),

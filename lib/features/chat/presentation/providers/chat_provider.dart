@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:stargazer/core/services/domain/usecases/send_message.dart';
 import 'package:flutter/material.dart';
 import 'package:stargazer/core/services/domain/entities/chat_message.dart';
@@ -109,10 +110,13 @@ CÁCH TRẢ LỜI:
     }
   }
 
-  void _addMessage(ChatMessage message) {
+  Future<void> _addMessage(ChatMessage message) async {
     if (_messages.length >= MESSAGE_LIMIT) {
       _messages.removeLast();
     }
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'Send_message',
+    );
     _messages.insert(0, message);
     notifyListeners();
   }

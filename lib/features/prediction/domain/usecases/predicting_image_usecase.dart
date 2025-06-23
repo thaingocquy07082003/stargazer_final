@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:stargazer/core/constants.dart';
 import 'package:stargazer/core/constants/api_constants.dart';
 
@@ -97,13 +98,14 @@ class PredictingImageUsecase {
 
       // Send request
       final response = await request.send();
-      print('da goi toi api nhan dien');
 
       // Read response
       final responseBody = await response.stream.bytesToString();
-      print('Response status: ${response.statusCode}');
-      print('Response body: $responseBody');
-
+      // Log Firebase Analytics event
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'palm_prediction_used',
+        parameters: {'status_code': response.statusCode},
+      );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(responseBody);
         return PredictionResult.fromJson(responseData);

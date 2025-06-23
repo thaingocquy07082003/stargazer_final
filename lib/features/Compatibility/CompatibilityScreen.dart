@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
@@ -174,7 +175,9 @@ class _CompatibilityScreenState extends State<CompatibilityScreen>
       isLoading = true;
       compatibilityResult = null;
     });
-
+     await FirebaseAnalytics.instance.logEvent(
+      name: 'compatibility_telling',
+    );
     try {
       final response = await http.post(
         Uri.parse(ApiConstants.ApiLLM),

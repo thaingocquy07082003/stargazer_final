@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stargazer/core/services/domain/entities/tarot.dart';
@@ -50,8 +51,14 @@ class _TarotCardsState extends State<TarotCards> {
             return Card_Widget(
               name: tarotlist[index].name,
               image: tarotlist[index].image,
-              onTap: () {
+              onTap: () async {
                 // Navigator.pushNamed(context, '/tarot_detail', arguments: tarotlist[index]);
+                await FirebaseAnalytics.instance.logEvent(
+                  name: 'Tarot_telling',
+                  parameters: {
+                    "tarot": tarotlist[index].name
+                  }
+                );
                 Provider.of<TarotProvider>(context,listen: false).changeTarot(index);
                 Navigator.pushNamed(context, '/tarotDetail');
               },
