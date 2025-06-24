@@ -128,15 +128,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     try {
       emit(state.copyWith(loading: true));
-      final userId = await loginGoogleUsecase();
-      emit(state.copyWith(id: userId['id']!, email: userId['email']!));
-      final user = await userGetUsecase();
+      final response = await loginGoogleUsecase();
+      final user = response['user'];
       if (user == null) {
         emit(state.copyWith(googleUserNotFound: true));
       } else {
+        if (user is! UserInfo) {
+          return;
+        }
         emit(state.copyWith(user: user));
         await saveSharedPrefsUsecase(user.token, user.name,user.email);
-        emit(state.copyWith(googleSuccess: true));
+        emit(state.copyWith(googleSuccess: true,loading: false));
       }
     } catch (e) {
       emit(state.copyWith(googleFailure: true));

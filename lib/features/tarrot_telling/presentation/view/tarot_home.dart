@@ -32,7 +32,7 @@ class _TarotHomeState extends State<TarotHome> {
             children: [
               Text(
                 text == 0 ? 'Tarot Cards Reading' : 'Những lá bài Tarot',
-                style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , color: theme == 0 ? Colors.black : Colors.white),
+                style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , color: Colors.white),
               ),
               SizedBox(height: 5),
               Container(
@@ -46,7 +46,7 @@ class _TarotHomeState extends State<TarotHome> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: theme == 0 ? Colors.black : Colors.white60,
+                    color: Colors.white60,
                   ),
                   maxLines: 3, // Giới hạn tối đa 3 dòng
                   overflow: TextOverflow.ellipsis, // Thêm dấu ... nếu văn bản vượt quá 3 dòng
@@ -72,7 +72,7 @@ class _TarotHomeState extends State<TarotHome> {
                     backgroundColor: Colors.purple, 
                     foregroundColor: Colors.white, 
                   ),
-                  child: Text('Start Reading' , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold),),
+                  child: Text(text == 0 ?'Start Reading':"Bắt đầu" , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold),),
                 ),
               )
             ],

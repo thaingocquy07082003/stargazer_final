@@ -46,6 +46,7 @@ dependencies:
   another_flushbar: ^1.12.30
   flutter_screenutil: ^5.9.3
   firebase_analytics: ^11.5.0
+  firebase_messaging: ^15.2.7
 
 dev_dependencies:
   flutter_test:

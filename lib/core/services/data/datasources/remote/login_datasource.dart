@@ -5,6 +5,7 @@ import 'package:stargazer/core/services/data/models/user.dart';
 
 abstract class LoginDataSource {
   Future<Map<String, dynamic>> loginWithEmail(String email, String password);
+  Future<Map<String, dynamic>> loginWithGoogle(String token);
 }
 
 class LoginDataSourceImpl implements LoginDataSource {
@@ -58,6 +59,56 @@ class LoginDataSourceImpl implements LoginDataSource {
       }
       if (response.statusCode == 401) {
         return {'user': null, 'message': 'Mật khẩu không chính xác'};
+      }
+
+      // Handle unexpected status codes
+      return {
+        'user': null,
+        'message': response.data["message"] ?? 'Đăng nhập thất bại'
+      };
+    } catch (e) {
+      print('Login error: $e');
+      return {'user': null, 'message': 'Đã xảy ra lỗi. Vui lòng thử lại sau.'};
+    }
+  }
+  
+  @override
+  Future<Map<String, dynamic>> loginWithGoogle(String token) async {
+    try {
+      final dio = Dio();
+      dio.options.validateStatus = (status) {
+        return status != null && status < 500;
+      };
+
+      final response = await dio.post(
+        ApiConstants.loginGoogle,
+        data: {
+          'token': token,
+        },
+      );
+
+      print('Login response: ${response.data}'); // Debug log
+
+      if (response.statusCode == 200) {
+        final data = response.data["data"];
+        if (data == null) {
+          return {'user': null, 'message': 'Dữ liệu người dùng không hợp lệ'};
+        }
+
+        try {
+          final user = UserInfo(
+            id: data['id']?.toString() ?? '',
+            name: data['fullName'] ?? 'No Name',
+            email: data['email'] ?? '',
+            token: data['token'] ?? '',
+            role: data['role'] ?? 'user',
+          );
+
+          return {'user': user, 'message': response.data["message"] ?? ''};
+        } catch (e) {
+          print('Error parsing user data: $e');
+          return {'user': null, 'message': 'Dữ liệu người dùng không hợp lệ'};
+        }
       }
 
       // Handle unexpected status codes

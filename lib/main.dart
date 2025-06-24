@@ -20,18 +20,64 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  // Xử lý thông báo ở đây
+  print('Handling a background message: ${message.messageId}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
   FlutterNativeSplash.remove();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    messaging.requestPermission();
+    messaging.getToken().then((token) {
+      print('FCM Token: $token');
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Co thong bao moi duoc nhan');
+      String? imageUrl =
+          message.data['imageUrl'] ?? message.notification?.android?.imageUrl;
+      final context = navigatorKey.currentContext;
+      if (context != null && imageUrl != null) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            content: Image.network(imageUrl),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Đóng'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        print('message data : ${message.data}');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
