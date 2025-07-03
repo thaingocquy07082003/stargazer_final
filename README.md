@@ -1,16 +1,34 @@
 # stargazer
 
-A new Flutter project.
+## Team Dev 
+  - Thái Ngọc Quý  Admin | 0342280638
 
-## Getting Started
+# Diagram describing the system's operation
 
-This project is a starting point for a Flutter application.
+![](./doc/Cautruc.png)      
 
-A few resources to get you started if this is your first Flutter project:
+# LLM RAG structure
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![](./doc/LLM_RAG.png)   
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## I.  Overall this applications
+- UI: Flutter for mobile app.
+- Back End: using Flask Framework to build Server Side API and apply model AI and LLM Chatbot  - language Python.
+- Back End: Spring boot - language Java.
+- Database: MySql , Milvus (vector database).
+
+## II.  Demo Production
+
+![](./doc/palm_line_detection.png)   
+
+![](./doc/Chatbot.png)   
+
+![](./doc/login_logout.png)   
+
+![](./doc/Tarot.png)   
+
+![](./doc/setting.png)   
+
+![](./doc/cung_hoang_dao.png)   
+
+![](./doc/thongbao.png)   

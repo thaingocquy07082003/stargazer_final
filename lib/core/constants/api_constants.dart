@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ApiConstants {
   static String get apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
   static String ApiUrl_java = 'https://stargazer-wgpb.onrender.com/';
-  static String ApiUrl_python = 'http://16.176.9.134:5000/';
+  static String ApiUrl_python = 'http://path_to_ec2:5000/';
   static String ApiLLM = '${ApiUrl_python}/api/chat';
   static String ApiPalmline = '${ApiUrl_python}predict';
   static const String baseUrl = 'https://generativelanguage.googleapis.com';
